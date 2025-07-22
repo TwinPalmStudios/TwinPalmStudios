@@ -23,6 +23,10 @@
       text-align: center;
       position: relative;
       min-height: 100vh;
+      /* Mobile horizontal padding */
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -84,8 +88,8 @@
     .circle {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.6;
-      filter: blur(200px);
+      opacity: 0.75; /* increased opacity */
+      filter: blur(180px); /* slightly less blur */
       transform: translate(0, 0);
       will-change: transform;
     }
@@ -123,14 +127,14 @@
       background: radial-gradient(circle at 25% 25%, #ff0047 10%, transparent 50%),
                   radial-gradient(circle at 70% 50%, #02262f 10%, transparent 50%),
                   radial-gradient(circle at 40% 80%, #ff0095 10%, transparent 50%);
-      opacity: 0.15;
+      opacity: 0.25; /* increased opacity */
       z-index: -1;
     }
 
     /* Copyright */
     .copyright {
       position: fixed;
-      bottom: 1rem;
+      bottom: 1rem; /* match 404 */
       width: 100%;
       font-size: 0.75rem;
       color: rgba(255, 255, 255, 0.4);  /* Updated opacity to 0.4 */
@@ -145,11 +149,10 @@
       box-sizing: border-box;
     }
 
-    /* Mobile horizontal padding for breathing room */
+    /* Responsive font sizes if needed */
     @media (max-width: 480px) {
-      html, body {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+      h1 {
+        font-size: 1.8rem;
       }
     }
   </style>
