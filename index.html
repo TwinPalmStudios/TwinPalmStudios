@@ -6,7 +6,7 @@
   <meta name="description" content="Twin Palm Studios - A new era of cinema." />
   <title>Home | Twin Palm Studios</title>
   <style>
-    /* Use viewport-fit=cover to allow extending into safe areas on iOS */
+    /* Base styles */
     html, body {
       margin: 0;
       padding: 0;
@@ -22,7 +22,6 @@
       justify-content: center;
       text-align: center;
       position: relative;
-      /* fallback for mobile viewport */
       min-height: 100vh;
     }
 
@@ -41,26 +40,37 @@
       position: relative;
     }
 
+    /* Updated coming-soon style with more margin-top */
     .coming-soon {
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
-      color: #ff3b30;
-      font-weight: 600;
+      display: inline-block;
+      font-size: 0.95rem;
+      padding: 0.6rem 1.2rem;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px;
+      margin-top: 1.5rem; /* increased spacing */
+      user-select: none;
+      cursor: default;
+      transition: background 0.2s ease, border 0.2s ease;
       z-index: 2;
       position: relative;
     }
 
+    .coming-soon:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Background & circles */
     .background {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
-      /* Use dynamic viewport height (100dvh) if supported, fallback to 100vh */
       height: 100dvh;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
-      /* add padding for safe area inset bottom */
       padding-bottom: env(safe-area-inset-bottom);
       box-sizing: border-box;
     }
@@ -117,6 +127,7 @@
       z-index: -1;
     }
 
+    /* Copyright */
     .copyright {
       position: fixed;
       bottom: calc(10px + env(safe-area-inset-bottom));
