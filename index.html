@@ -133,7 +133,7 @@
       bottom: 1rem;
       width: 100%;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.4);  /* Updated opacity to 0.4 */
+      color: rgba(255, 255, 255, 0.4);
       text-align: center;
       z-index: 2;
       user-select: none;
@@ -151,6 +151,24 @@
         padding-left: 1.5rem;
         padding-right: 1.5rem;
       }
+    }
+
+    /* Page transition overlay */
+    #page-transition-overlay {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      background: radial-gradient(circle, rgba(0,0,0,0.8), rgba(0,0,0,0.95));
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    #page-transition-overlay.active {
+      pointer-events: auto;
+      opacity: 1;
     }
   </style>
 </head>
@@ -170,5 +188,33 @@
   <div class="copyright">
     &copy; 2025 Twin Palm Studios. All rights reserved.
   </div>
+
+  <!-- Page transition overlay -->
+  <div id="page-transition-overlay"></div>
+
+  <script>
+    // Add fade out transition on link clicks
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('page-transition-overlay');
+      const links = document.querySelectorAll('a[href^="/"]');
+
+      links.forEach(link => {
+        link.addEventListener('click', e => {
+          // Only handle left click without modifier keys
+          if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+          e.preventDefault();
+          const href = link.getAttribute('href');
+
+          overlay.classList.add('active');
+
+          // Delay navigation until fade out completes (600ms)
+          setTimeout(() => {
+            window.location.href = href;
+          }, 600);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
