@@ -28,6 +28,25 @@
       margin-bottom: 0.5rem;
       z-index: 2;
       position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 100%;
+      user-select: none;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 0.15em;
+      background-color: white;
+      animation: blink 1s steps(2, start) infinite;
+      vertical-align: bottom;
+      margin-left: 2px;
+      user-select: none;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     .message {
@@ -36,6 +55,7 @@
       margin: 0.25rem 0 1.5rem;
       z-index: 2;
       position: relative;
+      user-select: text;
     }
 
     a.back-home {
@@ -49,6 +69,8 @@
       transition: background 0.2s ease, border 0.2s ease;
       z-index: 2;
       position: relative;
+      cursor: pointer;
+      user-select: none;
     }
 
     a.back-home:hover {
@@ -119,10 +141,10 @@
 
     .copyright {
       position: fixed;
-      bottom: calc(10px + env(safe-area-inset-bottom));
+      bottom: 1rem;
       width: 100%;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.4);
       text-align: center;
       z-index: 2;
       user-select: none;
@@ -134,14 +156,18 @@
       box-sizing: border-box;
     }
 
-    ::selection {
-      background: white;
-      color: black;
+    /* Mobile responsiveness for h1 */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+        white-space: normal;
+        overflow: visible;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>404: Page Not Found</h1>
+  <h1 id="animated-text"></h1><span class="typing-cursor" id="cursor"></span>
   <p class="message">We couldn't seem to find the page you were looking for.. </p>
   <a href="/" class="back-home">Back to homepage</a>
 
@@ -156,5 +182,36 @@
   <div class="copyright">
     &copy; 2025 Twin Palm Studios. All rights reserved.
   </div>
+
+  <script>
+    const text = '404: Page Not Found';
+    const animatedText = document.getElementById('animated-text');
+    const cursor = document.getElementById('cursor');
+    const animationDoneFlag = 'typingAnimationDone';
+
+    function typeText(text, element, cursorEl, delay = 100) {
+      let index = 0;
+
+      function type() {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, delay);
+        } else {
+          cursorEl.style.display = 'none';
+          sessionStorage.setItem(animationDoneFlag, 'true');
+        }
+      }
+
+      type();
+    }
+
+    if (!sessionStorage.getItem(animationDoneFlag)) {
+      typeText(text, animatedText, cursor);
+    } else {
+      animatedText.textContent = text;
+      cursor.style.display = 'none';
+    }
+  </script>
 </body>
 </html>
