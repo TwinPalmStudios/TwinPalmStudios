@@ -168,6 +168,24 @@
         overflow: visible;
       }
     }
+
+    /* Page transition overlay */
+    #page-transition-overlay {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      background: radial-gradient(circle, rgba(0,0,0,0.8), rgba(0,0,0,0.95));
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    #page-transition-overlay.active {
+      pointer-events: auto;
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -186,6 +204,9 @@
   <div class="copyright">
     &copy; 2025 Twin Palm Studios. All rights reserved.
   </div>
+
+  <!-- Page transition overlay -->
+  <div id="page-transition-overlay"></div>
 
   <script>
     const text = '404: Page Not Found';
@@ -216,6 +237,27 @@
       animatedText.textContent = text;
       cursor.style.display = 'none';
     }
+
+    // Page transition fade out on link click
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('page-transition-overlay');
+      const links = document.querySelectorAll('a[href^="/"]');
+
+      links.forEach(link => {
+        link.addEventListener('click', e => {
+          if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+          e.preventDefault();
+          const href = link.getAttribute('href');
+
+          overlay.classList.add('active');
+
+          setTimeout(() => {
+            window.location.href = href;
+          }, 600);
+        });
+      });
+    });
   </script>
 </body>
 </html>
