@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="Twin Palm Studios - A new era of cinema." />
   <title>Home | Twin Palm Studios</title>
   <style>
+    /* Use viewport-fit=cover to allow extending into safe areas on iOS */
     html, body {
       margin: 0;
       padding: 0;
@@ -21,12 +22,8 @@
       justify-content: center;
       text-align: center;
       position: relative;
-    }
-
-    /* Custom text selection colors */
-    ::selection {
-      background: #fff;
-      color: #000;
+      /* fallback for mobile viewport */
+      min-height: 100vh;
     }
 
     h1 {
@@ -58,9 +55,14 @@
       top: 0;
       left: 0;
       width: 100vw;
+      /* Use dynamic viewport height (100dvh) if supported, fallback to 100vh */
+      height: 100dvh;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
+      /* add padding for safe area inset bottom */
+      padding-bottom: env(safe-area-inset-bottom);
+      box-sizing: border-box;
     }
 
     .circles {
@@ -115,10 +117,9 @@
       z-index: -1;
     }
 
-    /* New copyright styling */
     .copyright {
       position: fixed;
-      bottom: 10px;
+      bottom: calc(10px + env(safe-area-inset-bottom));
       width: 100%;
       font-size: 0.75rem;
       color: rgba(255, 255, 255, 0.3);
@@ -128,6 +129,9 @@
       pointer-events: none;
       font-weight: 400;
       letter-spacing: 0.05em;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      box-sizing: border-box;
     }
   </style>
 </head>
