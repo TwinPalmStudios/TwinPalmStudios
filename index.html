@@ -23,18 +23,6 @@
       text-align: center;
       position: relative;
       min-height: 100vh;
-
-      /* Starting visible */
-      opacity: 1;
-      transition: opacity 0.5s ease;
-    }
-
-    /* Fade out class triggers fade */
-    body.fade-out {
-      opacity: 0;
-      /* Optional: subtle overlay gradient fade */
-      background-image:
-        radial-gradient(circle at 50% 50%, rgba(0,0,0,0.7), #000 90%);
     }
 
     h1 {
@@ -145,7 +133,7 @@
       bottom: 1rem;
       width: 100%;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.4);  /* Updated opacity to 0.4 */
       text-align: center;
       z-index: 2;
       user-select: none;
@@ -182,28 +170,5 @@
   <div class="copyright">
     &copy; 2025 Twin Palm Studios. All rights reserved.
   </div>
-
-  <script>
-    // Handle fade-out transition on link clicks
-    document.addEventListener('DOMContentLoaded', () => {
-      // Select all internal links (you can adjust this selector if needed)
-      const links = document.querySelectorAll('a[href^="/"]');
-
-      links.forEach(link => {
-        link.addEventListener('click', e => {
-          // Prevent immediate navigation
-          e.preventDefault();
-
-          // Add fade-out class
-          document.body.classList.add('fade-out');
-
-          // Wait for fade duration, then navigate
-          setTimeout(() => {
-            window.location.href = link.href;
-          }, 500); // match CSS transition duration
-        });
-      });
-    });
-  </script>
 </body>
 </html>
