@@ -130,10 +130,10 @@
     /* Copyright */
     .copyright {
       position: fixed;
-      bottom: calc(10px + env(safe-area-inset-bottom));
+      bottom: 1rem;
       width: 100%;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.4);  /* Updated opacity to 0.4 */
       text-align: center;
       z-index: 2;
       user-select: none;
@@ -145,7 +145,7 @@
       box-sizing: border-box;
     }
 
-    /* Mobile padding for horizontal breathing room */
+    /* Mobile horizontal padding for breathing room */
     @media (max-width: 480px) {
       html, body {
         padding-left: 1.5rem;
