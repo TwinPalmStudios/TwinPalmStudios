@@ -2,32 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Twin Palm Studios: A new era of cinema." />
   <title>Home | Twin Palm Studios</title>
   <style>
-    /* Reset and base */
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      overflow: hidden;
-      background: #000;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
                    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background: #000;
       color: #fff;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0 1rem;
       position: relative;
-      z-index: 1;
     }
 
     h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
-      z-index: 10;
+      z-index: 2;
       position: relative;
     }
 
@@ -35,102 +34,79 @@
       font-size: 1.25rem;
       max-width: 600px;
       margin: 0;
-      z-index: 10;
+      z-index: 2;
       position: relative;
     }
 
     .coming-soon {
       font-size: 0.85rem;
       margin-top: 0.5rem;
-      color: #ff3b30; /* Apple red tone */
+      color: #ff3b30;
       font-weight: 600;
-      z-index: 10;
+      z-index: 2;
       position: relative;
     }
 
-    /* Background container */
     .background {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
-      overflow: visible;
-      pointer-events: none;
+      overflow: hidden;
       z-index: 0;
-      filter: blur(1000px);
-      opacity: 0.75;
     }
 
-    /* Circles container for smooth blur */
     .circles {
       position: absolute;
-      width: 100vw;
-      height: 100vh;
-      top: 0; left: 0;
-      overflow: visible;
-      filter: blur(150px);
-      will-change: transform;
+      width: 100%;
+      height: 100%;
     }
 
-    /* Each circle style */
     .circle {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.75;
-      mix-blend-mode: screen; /* smooth color overlay */
-      pointer-events: none;
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
+      opacity: 0.6;
+      filter: blur(200px);
+      transform: translate(0, 0);
+      will-change: transform;
     }
 
-    /* Circle 1 */
     .circle1 {
-      width: 400px;
-      height: 400px;
+      width: 300px;
+      height: 300px;
       background: radial-gradient(circle at center, #ff0047, transparent 70%);
       top: 15%;
       left: 10%;
-      animation-name: float1;
-      animation-duration: 15s;
     }
 
-    /* Circle 2 */
     .circle2 {
-      width: 500px;
-      height: 500px;
+      width: 400px;
+      height: 400px;
       background: radial-gradient(circle at center, #00d2ff, transparent 70%);
       top: 40%;
       left: 60%;
-      animation-name: float2;
-      animation-duration: 20s;
     }
 
-    /* Circle 3 */
     .circle3 {
-      width: 350px;
-      height: 350px;
+      width: 250px;
+      height: 250px;
       background: radial-gradient(circle at center, #ffb400, transparent 70%);
       top: 70%;
       left: 30%;
-      animation-name: float3;
-      animation-duration: 18s;
     }
 
-    /* Animation keyframes for slow floating */
-    @keyframes float1 {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(15px, 15px); }
-    }
-
-    @keyframes float2 {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(-20px, 20px); }
-    }
-
-    @keyframes float3 {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(10px, -10px); }
+    /* Ensure background never renders black only (fallback) */
+    .background::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at 25% 25%, #ff0047 10%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, #02262f 10%, transparent 50%),
+                  radial-gradient(circle at 40% 80%, #ff0095 10%, transparent 50%);
+      opacity: 0.15;
+      z-index: -1;
     }
   </style>
 </head>
@@ -146,36 +122,5 @@
       <div class="circle circle3"></div>
     </div>
   </div>
-
-  <script>
-    // Make circles subtly follow the cursor with low intensity
-    const circles = document.querySelectorAll('.circle');
-    const maxMove = 15; // max px movement on cursor
-
-    window.addEventListener('mousemove', (e) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      const dx = (e.clientX - cx) / cx; // -1 to 1
-      const dy = (e.clientY - cy) / cy; // -1 to 1
-
-      circles.forEach((circle, i) => {
-        // different intensity for each circle
-        const intensity = (i + 1) * 2;
-        const moveX = dx * intensity;
-        const moveY = dy * intensity;
-
-        // We combine the cursor movement with the floating animation by modifying translate values
-        // Note: We set CSS variables so the animation can use them if needed (advanced, optional)
-        circle.style.transform = `translate(calc(var(--floatX, 0px) + ${moveX}px), calc(var(--floatY, 0px) + ${moveY}px))`;
-      });
-    });
-
-    // Also reset position on mouse leave for smooth reset
-    window.addEventListener('mouseleave', () => {
-      circles.forEach(circle => {
-        circle.style.transform = '';
-      });
-    });
-  </script>
 </body>
 </html>
