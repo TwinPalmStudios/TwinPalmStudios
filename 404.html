@@ -21,9 +21,21 @@
       justify-content: center;
       text-align: center;
       position: relative;
-
-      /* transition */
       transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    /* Text selection for dark mode */
+    ::selection {
+      background: #fff;
+      color: #000;
+    }
+
+    @media (prefers-color-scheme: light) {
+      /* Text selection for light mode */
+      ::selection {
+        background: #000;
+        color: #fff;
+      }
     }
 
     h1 {
@@ -45,7 +57,6 @@
       vertical-align: bottom;
       margin-left: 2px;
       user-select: none;
-
       transition: background-color 0.5s ease;
     }
 
@@ -163,7 +174,6 @@
       transition: color 0.5s ease;
     }
 
-    /* Mobile responsiveness for h1 */
     @media (max-width: 480px) {
       html, body {
         padding-left: 1.5rem;
@@ -176,7 +186,6 @@
       }
     }
 
-    /* Light mode support */
     @media (prefers-color-scheme: light) {
       html, body {
         background: #f9f9f9;
