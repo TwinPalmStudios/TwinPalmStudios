@@ -25,14 +25,12 @@
       transition: background 0.5s ease, color 0.5s ease;
     }
 
-    /* Text selection for dark mode */
     ::selection {
       background: #fff;
       color: #000;
     }
 
     @media (prefers-color-scheme: light) {
-      /* Text selection for light mode */
       ::selection {
         background: #000;
         color: #fff;
@@ -98,8 +96,8 @@
       border-radius: 50%;
       opacity: 0.6;
       filter: blur(200px);
-      transform: translate(0, 0);
-      will-change: transform;
+      transform-origin: center center;
+      will-change: transform, background, opacity;
     }
 
     .circle1 {
@@ -108,6 +106,9 @@
       background: radial-gradient(circle at center, #ff0047, transparent 70%);
       top: 15%;
       left: 10%;
+      animation: swapMove1 15s ease-in-out infinite,
+                 pulseOpacity1 5s ease-in-out infinite alternate,
+                 rotate1 15s ease-in-out infinite;
     }
 
     .circle2 {
@@ -116,6 +117,9 @@
       background: radial-gradient(circle at center, #00d2ff, transparent 70%);
       top: 40%;
       left: 60%;
+      animation: swapMove2 15s ease-in-out infinite,
+                 pulseOpacity2 5.5s ease-in-out infinite alternate,
+                 rotate2 15s ease-in-out infinite;
     }
 
     .circle3 {
@@ -124,6 +128,54 @@
       background: radial-gradient(circle at center, #ffb400, transparent 70%);
       top: 70%;
       left: 30%;
+      animation: swapMove3 15s ease-in-out infinite,
+                 pulseOpacity3 4.5s ease-in-out infinite alternate,
+                 rotate3 15s ease-in-out infinite;
+    }
+
+    @keyframes swapMove1 {
+      0%, 100% { top: 15%; left: 10%; }
+      33%      { top: 40%; left: 60%; }
+      66%      { top: 70%; left: 30%; }
+    }
+    @keyframes swapMove2 {
+      0%, 100% { top: 40%; left: 60%; }
+      33%      { top: 70%; left: 30%; }
+      66%      { top: 15%; left: 10%; }
+    }
+    @keyframes swapMove3 {
+      0%, 100% { top: 70%; left: 30%; }
+      33%      { top: 15%; left: 10%; }
+      66%      { top: 40%; left: 60%; }
+    }
+
+    @keyframes pulseOpacity1 {
+      0% { opacity: 0.6; }
+      100% { opacity: 0.75; }
+    }
+    @keyframes pulseOpacity2 {
+      0% { opacity: 0.6; }
+      100% { opacity: 0.72; }
+    }
+    @keyframes pulseOpacity3 {
+      0% { opacity: 0.6; }
+      100% { opacity: 0.7; }
+    }
+
+    @keyframes rotate1 {
+      0%   { transform: rotate(0deg) scale(1); }
+      50%  { transform: rotate(7deg) scale(1.07); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+    @keyframes rotate2 {
+      0%   { transform: rotate(0deg) scale(1); }
+      50%  { transform: rotate(-5deg) scale(1.06); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+    @keyframes rotate3 {
+      0%   { transform: rotate(0deg) scale(1); }
+      50%  { transform: rotate(6deg) scale(1.05); }
+      100% { transform: rotate(0deg) scale(1); }
     }
 
     .background::before {
@@ -203,7 +255,59 @@
   </div>
 
   <div class="copyright">
-    &copy; 2025 Twin Palm Studios. All rights reserved.
+    © 2025 Twin Palm Studios. All rights reserved.
   </div>
+
+  <script>
+    // Initialize circle elements with color states
+    const circles = document.querySelectorAll('.circle');
+    const colors = [
+      { r: 255, g: 0, b: 71 },   // Red #ff0047
+      { r: 0, g: 210, b: 255 },  // Cyan #00d2ff
+      { r: 255, g: 180, b: 0 },  // Yellow #ffb400
+      { r: 255, g: 0, b: 149 }   // Pink #ff0095
+    ];
+
+    circles.forEach(circle => {
+      circle.colorIndex = Math.floor(Math.random() * colors.length);
+      circle.targetColorIndex = (circle.colorIndex + 1) % colors.length;
+      circle.colorProgress = 0;
+      circle.currentColor = { ...colors[circle.colorIndex] };
+      circle.style.background = `radial-gradient(circle at center, rgb(${circle.currentColor.r}, ${circle.currentColor.g}, ${circle.currentColor.b}), transparent 70%)`;
+    });
+
+    // Linear interpolation for smooth color transition
+    function lerp(start, end, t) {
+      return start + (end - start) * t;
+    }
+
+    // Animation loop for color transitions
+    function animate() {
+      circles.forEach(circle => {
+        // Color transition
+        circle.colorProgress += 0.016; // Adjust for ~2s transition at 60fps
+        if (circle.colorProgress >= 1) {
+          circle.colorIndex = circle.targetColorIndex;
+          circle.targetColorIndex = (circle.targetColorIndex + 1) % colors.length;
+          circle.colorProgress = 0;
+        }
+
+        const currentColor = colors[circle.colorIndex];
+        const targetColor = colors[circle.targetColorIndex];
+        const t = circle.colorProgress;
+
+        circle.currentColor.r = Math.round(lerp(currentColor.r, targetColor.r, t));
+        circle.currentColor.g = Math.round(lerp(currentColor.g, targetColor.g, t));
+        circle.currentColor.b = Math.round(lerp(currentColor.b, targetColor.b, t));
+
+        circle.style.background = `radial-gradient(circle at center, rgb(${circle.currentColor.r}, ${circle.currentColor.g}, ${circle.currentColor.b}), transparent 70%)`;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    // Start animation
+    animate();
+  </script>
 </body>
 </html>
