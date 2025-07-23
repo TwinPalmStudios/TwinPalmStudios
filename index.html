@@ -25,6 +25,20 @@
       transition: background 0.5s ease, color 0.5s ease;
     }
 
+    /* Text selection for dark mode */
+    ::selection {
+      background: #fff;
+      color: #000;
+    }
+
+    @media (prefers-color-scheme: light) {
+      /* Text selection for light mode */
+      ::selection {
+        background: #000;
+        color: #fff;
+      }
+    }
+
     h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
