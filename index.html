@@ -259,8 +259,7 @@
   </div>
 
   <script>
-    // Initialize circle elements with color states
-    const circles = document.querySelectorAll('.circle');
+    // Define colors
     const colors = [
       { r: 255, g: 0, b: 71 },   // Red #ff0047
       { r: 0, g: 210, b: 255 },  // Cyan #00d2ff
@@ -268,10 +267,18 @@
       { r: 255, g: 0, b: 149 }   // Pink #ff0095
     ];
 
-    circles.forEach(circle => {
-      circle.colorIndex = Math.floor(Math.random() * colors.length);
-      circle.targetColorIndex = (circle.colorIndex + 1) % colors.length;
-      circle.colorProgress = 0;
+    // Initialize circle elements with color states
+    const circles = document.querySelectorAll('.circle');
+    const savedState = JSON.parse(sessionStorage.getItem('circleColorState')) || {};
+
+    circles.forEach((circle, index) => {
+      const state = savedState[index] || {
+        colorIndex: Math.floor(Math.random() * colors.length),
+        colorProgress: 0
+      };
+      circle.colorIndex = state.colorIndex;
+      circle.targetColorIndex = (state.colorIndex + 1) % colors.length;
+      circle.colorProgress = state.colorProgress;
       circle.currentColor = { ...colors[circle.colorIndex] };
       circle.style.background = `radial-gradient(circle at center, rgb(${circle.currentColor.r}, ${circle.currentColor.g}, ${circle.currentColor.b}), transparent 70%)`;
     });
@@ -283,6 +290,7 @@
 
     // Animation loop for color transitions
     function animate() {
+      const stateToSave = [];
       circles.forEach(circle => {
         // Color transition
         circle.colorProgress += 0.016; // Adjust for ~2s transition at 60fps
@@ -301,7 +309,16 @@
         circle.currentColor.b = Math.round(lerp(currentColor.b, targetColor.b, t));
 
         circle.style.background = `radial-gradient(circle at center, rgb(${circle.currentColor.r}, ${circle.currentColor.g}, ${circle.currentColor.b}), transparent 70%)`;
+
+        // Store state
+        stateToSave.push({
+          colorIndex: circle.colorIndex,
+          colorProgress: circle.colorProgress
+        });
       });
+
+      // Save state to sessionStorage
+      sessionStorage.setItem('circleColorState', JSON.stringify(stateToSave));
 
       requestAnimationFrame(animate);
     }
