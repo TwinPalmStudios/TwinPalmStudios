@@ -356,7 +356,10 @@
     if (!sessionStorage.getItem(firstLoadFlag)) {
       circlesContainer.classList.add('first-load');
       sessionStorage.setItem(firstLoadFlag, 'true');
-    } else {
+    }
+
+    // Apply nav-load class for navigation (not refresh)
+    if (performance.navigation.type !== 1) {
       circlesContainer.classList.add('nav-load');
     }
 
