@@ -25,6 +25,20 @@
       transition: background 0.5s ease, color 0.5s ease;
     }
 
+    body {
+      animation: fadeIn 0.5s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
     ::selection {
       background: #fff;
       color: #000;
@@ -89,6 +103,13 @@
       position: absolute;
       width: 100%;
       height: 100%;
+      opacity: 0;
+      animation: circleFadeIn 0.5s ease-in 0.2s forwards;
+    }
+
+    @keyframes circleFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .circle {
@@ -280,6 +301,13 @@
       circle.targetColorIndex = (state.colorIndex + 1) % colors.length;
       circle.colorProgress = state.colorProgress;
       circle.currentColor = { ...colors[circle.colorIndex] };
+      // Set initial color immediately to avoid flash
+      const t = state.colorProgress;
+      const currentColor = colors[circle.colorIndex];
+      const targetColor = colors[circle.targetColorIndex];
+      circle.currentColor.r = Math.round(currentColor.r + (targetColor.r - currentColor.r) * t);
+      circle.currentColor.g = Math.round(currentColor.g + (targetColor.g - currentColor.g) * t);
+      circle.currentColor.b = Math.round(currentColor.b + (targetColor.b - currentColor.b) * t);
       circle.style.background = `radial-gradient(circle at center, rgb(${circle.currentColor.r}, ${circle.currentColor.g}, ${circle.currentColor.b}), transparent 70%)`;
     });
 
@@ -325,6 +353,11 @@
 
     // Start animation
     animate();
+
+    // Fade out on page unload
+    window.addEventListener('beforeunload', () => {
+      document.body.style.animation = 'fadeOut 0.3s ease-out forwards';
+    });
   </script>
 </body>
 </html>
