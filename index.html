@@ -86,6 +86,15 @@
       border-color: rgba(255, 255, 255, 0.4);
     }
 
+    /* FIX: Prevent selection on background circles */
+    .background,
+    .circles,
+    .circle {
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: none;
+    }
+
     .background {
       position: fixed;
       top: 0;
@@ -212,6 +221,7 @@
       transition: opacity 0.5s ease;
     }
 
+    /* Ensure copyright is not selectable */
     .copyright {
       position: fixed;
       bottom: 1rem;
@@ -221,6 +231,7 @@
       text-align: center;
       z-index: 2;
       user-select: none;
+      -webkit-user-select: none;
       pointer-events: none;
       font-weight: 400;
       letter-spacing: 0.05em;
