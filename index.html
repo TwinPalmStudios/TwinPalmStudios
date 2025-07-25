@@ -97,6 +97,11 @@
       z-index: 0;
       padding-bottom: env(safe-area-inset-bottom);
       box-sizing: border-box;
+
+      /* Prevent selection and interaction on mobile Safari and others */
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: none;
     }
 
     .circles {
@@ -105,6 +110,11 @@
       height: 100%;
       opacity: 0;
       animation: circleFadeIn 0.5s ease-in 0.2s forwards;
+
+      /* Prevent selection and interaction */
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: none;
     }
 
     @keyframes circleFadeIn {
@@ -119,6 +129,11 @@
       filter: blur(200px);
       transform-origin: center center;
       will-change: transform, background, opacity;
+
+      /* Prevent selection and interaction */
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: none;
     }
 
     .circle1 {
@@ -228,6 +243,11 @@
       padding-right: env(safe-area-inset-right);
       box-sizing: border-box;
       transition: color 0.5s ease;
+
+      /* Ensure no selection or interaction on mobile */
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: none;
     }
 
     @media (max-width: 480px) {
