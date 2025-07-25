@@ -22,6 +22,12 @@
       text-align: center;
       position: relative;
       transition: background 0.5s ease, color 0.5s ease;
+      user-select: none; /* Prevent text selection globally */
+    }
+
+    /* Re-enable text selection only on .message and the back-home link */
+    .message, a.back-home {
+      user-select: text;
     }
 
     body {
@@ -83,7 +89,7 @@
       margin: 0.25rem 0 1.5rem;
       z-index: 2;
       position: relative;
-      user-select: text;
+      user-select: text; /* explicitly enabled */
     }
 
     a.back-home {
@@ -98,7 +104,7 @@
       z-index: 2;
       position: relative;
       cursor: pointer;
-      user-select: none;
+      user-select: text; /* explicitly enabled */
     }
 
     a.back-home:hover {
@@ -237,7 +243,7 @@
       color: rgba(255, 255, 255, 0.4);
       text-align: center;
       z-index: 2;
-      user-select: none;
+      user-select: none; /* keep copyright unselectable */
       pointer-events: none;
       font-weight: 400;
       letter-spacing: 0.05em;
