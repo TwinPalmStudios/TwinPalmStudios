@@ -22,12 +22,18 @@
       text-align: center;
       position: relative;
       transition: background 0.5s ease, color 0.5s ease;
-      user-select: none; /* Prevent text selection globally */
+      user-select: none; /* Prevent selection on body */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
-    /* Re-enable text selection only on .message and the back-home link */
-    .message, a.back-home {
+    /* Allow selection only on .message */
+    .message {
       user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
     }
 
     body {
@@ -65,6 +71,9 @@
       overflow: hidden;
       max-width: 100%;
       user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
     .typing-cursor {
@@ -75,6 +84,9 @@
       vertical-align: bottom;
       margin-left: 2px;
       user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
       transition: background-color 0.5s ease;
     }
 
@@ -89,7 +101,7 @@
       margin: 0.25rem 0 1.5rem;
       z-index: 2;
       position: relative;
-      user-select: text; /* explicitly enabled */
+      /* user-select text already set above */
     }
 
     a.back-home {
@@ -104,7 +116,10 @@
       z-index: 2;
       position: relative;
       cursor: pointer;
-      user-select: text; /* explicitly enabled */
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
     a.back-home:hover {
@@ -243,7 +258,7 @@
       color: rgba(255, 255, 255, 0.4);
       text-align: center;
       z-index: 2;
-      user-select: none; /* keep copyright unselectable */
+      user-select: none;
       pointer-events: none;
       font-weight: 400;
       letter-spacing: 0.05em;
@@ -251,6 +266,9 @@
       padding-right: env(safe-area-inset-right);
       box-sizing: border-box;
       transition: color 0.5s ease;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
     @media (max-width: 480px) {
